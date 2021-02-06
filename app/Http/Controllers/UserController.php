@@ -3,19 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use \App\Album;
-use \App\Image;
-class ImageController extends Controller
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\User;
+use App\Follower;
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index()
     {
-        $album = Album::with('images')->with('user')->findOrFail($id);
-        return view('image.index', compact('album'));
+        
     }
 
     /**
@@ -23,13 +24,9 @@ class ImageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($id)
+    public function create()
     {
-        if(Album::where('user_id', auth()->user()->id)->where('id', $id)->exists()){
-            return view('image.create')->with('album_id', $id);
-        } else {
-            return redirect()->back();
-        }
+        //
     }
 
     /**
@@ -40,24 +37,7 @@ class ImageController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'images' => 'required',
-            'images.*' => 'mimes:png,jpg,jpeg'
-        ]);
-        foreach ($request['images'] as $image){
-            $imageName = $image->hashName();
-            $image->move(public_path('images/albums'), $imageName);
-            Image::create([
-                'image' => $imageName,
-                'album_id' => $request['album_id']
-            ]);
-        }
-        
-    }
-
-    public function showImages($id) {
-       
-        
+        //
     }
 
     /**
@@ -67,10 +47,23 @@ class ImageController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        //
+    {   
+        $user = User::with('albums')->where('id',$id)->first();
+        if(Auth::check()){
+        $me_id = auth()->user()->id;
+        $is_following = FollowerController::amIFollowing($id);
+        $followers = DB::table('followers')->where('following_id', $id)->count();
+        $followings = DB::table('followers')->where('follower_id', $id)->count();
+        if($user) {
+            return view('profile', compact('user', 'is_following', 'followers', 'followings', 'me_id'));
+        }
+        
+         else abort(404);
+        }
+        return view('profile')->with('user', $user);
+        
     }
-
+    
     /**
      * Show the form for editing the specified resource.
      *

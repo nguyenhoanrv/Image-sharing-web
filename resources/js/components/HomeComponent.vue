@@ -205,8 +205,6 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap");
-
 * {
   margin: 0;
   padding: 0;
@@ -329,9 +327,9 @@ form.sign-in-form {
   color: #333;
   border-radius: 50%;
   border: 1px solid #333;
-  text-decoration: none;        
+  text-decoration: none;
   font-size: 1.1rem;
-  transition: 0.3s; 
+  transition: 0.3s;
 }
 
 .social-icon:hover {

@@ -13,7 +13,7 @@
                   <a class="btn btn-primary btn-lg" href="{{route('album.create')}}" role="button">Create New Album</a>
                   </div>
                 </div>
-                <index-component></index-component>
+                <album-index-component></album-index-component>
             </div>
         </div>
     </div>

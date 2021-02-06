@@ -33,5 +33,11 @@ Route::group(['prefix' => 'albums',  'middleware' => 'auth'], function()
 });
 
 Route::group(['prefix' => 'images', 'middleware' => 'auth'], function () {
-    Route::get('/upload', 'ImageController@create');
+    Route::get('/{id}/upload', 'ImageController@create');
+    Route::get('/{id}/view', 'ImageController@index');
+    Route::post('/store', 'ImageController@store');
 });
+Route::get('/profile/{id}', 'UserController@show')->name('profile');
+Route::resource('/follow','FollowerController')->middleware('auth');
+Route::get('{id}/followers', 'FollowerController@getFollowers');
+Route::get('{id}/followings', 'FollowerController@getFollowings');

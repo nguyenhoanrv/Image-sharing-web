@@ -7,7 +7,8 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-
+import VueLazyLoad from 'vue-lazyload'
+Vue.use(VueLazyLoad)
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -21,9 +22,15 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('album-component', require('./components/AlbumComponent.vue').default);
-Vue.component('index-component', require('./components/IndexComponent.vue').default);
+Vue.component('album-index-component', require('./components/AlbumIndexComponent.vue').default);
 Vue.component('edit-component', require('./components/EditComponent.vue').default);
 Vue.component('home-component', require('./components/HomeComponent.vue').default);
+Vue.component('upload-component', require('./components/UploadComponent.vue').default);
+Vue.component('image-index-component', require('./components/ImageIndexComponent.vue').default);
+Vue.component('home-index-component', require('./components/HomeIndexComponent.vue').default);
+Vue.component('profile-component', require('./components/ProfileComponent.vue').default);
+Vue.component('light-box', require('vue-image-lightbox').default);
+
 
 
 /**

@@ -7,6 +7,7 @@
         <th scope="col">Description</th>
         <th scope="col">Category</th>
         <th scope="col">Image</th>
+        <th scope="col">Upload</th>
         <th scope="col">Edit/Delete</th>
       </tr>
     </thead>
@@ -23,6 +24,17 @@
             width="70"
             class="img-fluid"
           />
+        </td>
+        <td>
+          <a :href="'/images/' + album.id + '/view'">
+            <button class="btn btn-success">View Album</button>
+          </a>
+        </td>
+
+        <td>
+          <a :href="'/images/' + album.id + '/upload'">
+            <button class="btn btn-success">Upload</button>
+          </a>
         </td>
         <td>
           <button
@@ -42,6 +54,7 @@
           >
             Delete
           </button>
+
           <edit-component
             :dataAlbum="dataAlbum"
             @albumUpdated="albumUpdate"
