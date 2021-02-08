@@ -49,7 +49,19 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item"><a class="nav-link" href="/albums">Album</a></li>
+                         <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    Category
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    @foreach(\App\Category::all() as $category)
+                                    <a class="dropdown-item" href="{{ route('category', ['id'=> $category->id]) }}">{{$category->name}}</a>
+                                    @endforeach
+                                </div>
+                            </li>
+
+                            <li class="nav-item"><a class="nav-link" href="/albums">Dashboard</a></li>
 
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -70,6 +82,8 @@
                                     </form>
                                 </div>
                             </li>
+
+                            
                         @endguest
                     </ul>
                 </div>

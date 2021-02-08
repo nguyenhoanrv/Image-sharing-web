@@ -8,7 +8,10 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 import VueLazyLoad from 'vue-lazyload'
+import VueSplide from '@splidejs/vue-splide';
+
 Vue.use(VueLazyLoad)
+Vue.use(VueSplide)
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -20,7 +23,6 @@ Vue.use(VueLazyLoad)
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('album-component', require('./components/AlbumComponent.vue').default);
 Vue.component('album-index-component', require('./components/AlbumIndexComponent.vue').default);
 Vue.component('edit-component', require('./components/EditComponent.vue').default);

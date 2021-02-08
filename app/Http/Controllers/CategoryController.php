@@ -10,5 +10,10 @@ class CategoryController extends Controller
         $categories = Category::get();
         return $categories;
     }
+
+    public function show($id) {
+        $category = Category::with('albums')->findOrFail($id);
+        return view('category.category', \compact('category'));
+    }
     
 }

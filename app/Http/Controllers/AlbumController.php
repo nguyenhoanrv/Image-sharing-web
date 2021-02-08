@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use App\Album;
 
 class AlbumController extends Controller
@@ -30,12 +31,26 @@ class AlbumController extends Controller
 
     
     public function getAlbums() {
-        $albums = Album::where('user_id', auth()->user()->id)->with('category')->get();
+        $albums = Album::where('user_id', auth()->user()->id)->with('category:id,name')->get();
         return $albums;
     }
+    public function getNewAlbum() {
+        return DB::table(DB::raw('albums a, users u '))
+        ->selectRaw('a.id as album_id, a.image as album_image,a.name as album_name, u.name as user_name')->where('u.id','=',DB::raw('a.user_id'))->orderByDesc('album_id')->paginate(5);
+;
+    }
+    public function getFollowingAlbum() {
 
+        return DB::table(DB::raw('albums a, followers f, users u '))
+        ->selectRaw('a.id as album_id, a.image as album_image,a.name as album_name, u.name as user_name')
+        ->where('f.follower_id','=', auth()->user()->id)
+        ->where('a.id','=',DB::raw('f.following_id'))
+        ->where('u.id','=',DB::raw('a.user_id'))->orderByDesc('album_id')->paginate(5);
+    }
+
+    
     public function getAlbumById($id) {
-        $album = Album::with('category')->findOrFail($id);
+        $album = Album::with('category:id,name')->findOrFail($id);
         return $album;
     }
     /**

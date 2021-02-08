@@ -1,208 +1,320 @@
 <template>
-  <div>
-    <h1 class="c-title">Inspiration For Your <br />Next Vacation</h1>
-    <ul class="c-featurette">
-      <li class="c-featurette__item">
-        <img
-          class="c-featurette__background"
-          src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/911489/steve-long-607673-unsplash.jpg"
-        /><small class="c-featurette__category">Summer</small>
-        <h2 class="c-featurette__heading">Bali</h2>
-        <button class="c-featurette__button">Discover</button>
-      </li>
-      <li class="c-featurette__item">
-        <img
-          class="c-featurette__background"
-          src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/911489/mario-klassen-428384-unsplash.jpg"
-        /><small class="c-featurette__category">Africa</small>
-        <h2 class="c-featurette__heading">Kenya</h2>
-        <button class="c-featurette__button">Discover</button>
-      </li>
-      <li class="c-featurette__item">
-        <img
-          class="c-featurette__background"
-          src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/911489/nicolas-j-leclercq-785256-unsplash.jpg"
-        /><small class="c-featurette__category">Popular</small>
-        <h2 class="c-featurette__heading">Iceland</h2>
-        <button class="c-featurette__button">Discover</button>
-      </li>
-      <li class="c-featurette__item">
-        <img
-          class="c-featurette__background"
-          src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/911489/jonathan-gallegos-727409-unsplash.jpg"
-        /><small class="c-featurette__category">Summer</small>
-        <h2 class="c-featurette__heading">Greece</h2>
-        <button class="c-featurette__button">Discover</button>
-      </li>
-      <li class="c-featurette__item">
-        <img
-          class="c-featurette__background"
-          src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/911489/yunqing-leo-783078-unsplash.jpg"
-        /><small class="c-featurette__category">City</small>
-        <h2 class="c-featurette__heading">Arizona</h2>
-        <button class="c-featurette__button">Discover</button>
-      </li>
-    </ul>
+  <div class="containerr">
+    <header>
+      <h1>
+        SHARE YOUR IMAGE <br />
+        <span>[ Portfolio Gallery ]</span>
+      </h1>
+    </header>
+    <h1 class="new_albums">NEW ALBUMS</h1>
+
+    <div class="containerss">
+      <!-- <div
+      class="panel active"
+      style="
+        background-image: url('https://source.unsplash.com/random/?nature');
+      "
+    >
+      <h3>Explore Nature</h3>
+    </div> -->
+      <div
+        class="panel"
+        v-for="(slide, i) in data1.data"
+        :key="slide.album_image"
+        :style="{
+          backgroundImage: 'url(' + '/album/' + slide.album_image + ')',
+        }"
+        :class="{ active: index === i }"
+        @click="onClick(i)"
+      >
+        <div class="content">
+          <h3>{{ slide.album_name }}</h3>
+          <p>Author: {{ slide.user_name }}</p>
+          <a class="btn fourth" :href="'/images/' + slide.album_id + '/view'"
+            >View Album</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- // following albums -->
+    <h1 class="new_albums">FOLLOWING ALBUMS</h1>
+
+    <div class="container2">
+      <div class="box">
+        <img src="https://source.unsplash.com/1000x800" />
+        <span>CSS</span>
+      </div>
+      <div class="box">
+        <img src="https://source.unsplash.com/1000x802" />
+        <span>Image</span>
+      </div>
+      <div class="box">
+        <img src="https://source.unsplash.com/1000x804" />
+        <span>Hover</span>
+      </div>
+      <div class="box">
+        <img src="https://source.unsplash.com/1000x806" />
+        <span>Effect</span>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      data1: [],
+      data2: [],
+      index: 0,
+    };
+  },
+  methods: {
+    getAlbum() {
+      axios
+        .get("/albums/get_new_album")
+        .then((res) => {
+          this.data1 = res.data;
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      axios
+        .get("/albums/get_following_album")
+        .then((res) => {
+          this.data2 = res.data;
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    onClick(i) {
+      this.index = i;
+    },
+  },
+  created() {
+    this.getAlbum();
+  },
+};
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css?family=Playfair+Display:900|Poppins:300,500");
-body {
+/* //// */
+
+@import url("https://fonts.googleapis.com/css?family=Muli&display=swap");
+.containerr {
+  width: 100%;
+  margin-top: -24px;
+  background: #eee;
   overflow-x: hidden;
 }
-* {
+.containerss {
   box-sizing: border-box;
-}
-.c-title {
-  position: relative;
-  text-align: center;
-  font-size: 2.5em;
-  margin: 32px 0;
-  padding: 32px 0 0 0;
-  font-family: "Playfair Display", serif;
-  font-weight: 900;
-}
-.c-title::before {
-  content: "";
-  display: block;
-  position: absolute;
-  height: 6px;
-  width: 64px;
-  left: 50%;
-  top: 10px;
-  transform: translatex(-50%);
-  background: #f7e195;
-}
-.c-featurette {
   display: flex;
-  flex-flow: row nowrap;
-  list-style: none;
-  margin: 0;
-  padding: 0 8px;
-  width: 100%;
-  height: 100%;
+  width: 90vw;
+  justify-content: center;
   align-items: center;
+  margin: 0 auto;
+  font-family: "Muli", sans-serif;
 }
-.c-featurette__item {
-  position: relative;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: flex-end;
-  flex: 1 1 auto;
-  margin: 16px 8px;
-  min-height: 512px;
+
+.panel {
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 60vh;
+  border-radius: 50px;
   color: #fff;
-  font-family: "Poppins", sans-serif;
-  letter-spacing: 2px;
+  cursor: pointer;
+  flex: 0.5;
+  margin: 10px;
+  position: relative;
+  transition: flex 0.7s ease-in;
+}
+
+.panel .content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: absolute;
+  background-image: linear-gradient(
+    to right top,
+    #d16ba5,
+    #c777b9,
+    #ba83ca,
+    #aa8fd8,
+    #9a9ae1,
+    #8aa7ec,
+    #79b3f4,
+    #69bff8,
+    #52cffe,
+    #41dfff,
+    #46eefa,
+    #5ffbf1
+  );
+  bottom: 0px;
+  left: 0px;
+  border-bottom-left-radius: 50px;
+  border-top-right-radius: 50px;
+  opacity: 0;
+}
+
+.panel.active {
+  flex: 5;
+}
+
+.panel.active .content {
+  opacity: 1;
+  transition: opacity 0.3s ease-in 0.5s;
+}
+.btn {
+  box-sizing: border-box;
+  appearance: none;
+  background-color: transparent;
+  border: 2px solid #e74c3c;
+  border-radius: 0.6em;
+  color: #e74c3c;
+  cursor: pointer;
+  display: flex;
+  align-self: center;
+  font-size: 0.7rem;
+  font-weight: 400;
+  line-height: 1;
+  margin: 10px 20px;
+  padding: 0.8em 2.2em;
+  text-decoration: none;
   text-align: center;
-  border-radius: 2px;
-  transition: 250ms ease;
-}
-.c-featurette__item::before {
-  content: "";
-  position: absolute;
-  display: block;
-  height: 100%;
-  width: 100%;
-  left: 0;
-  top: 0;
-}
-.c-featurette__item::after {
-  content: "";
-  z-index: -2;
-  opacity: 0;
-  position: absolute;
-  display: none;
-  height: 100%;
-  width: 100%;
-  left: 32px;
-  top: 32px;
-  background-image: radial-gradient(circle 1px at 0 0, #c2c2c2, transparent 1px),
-    radial-gradient(circle 1px at 15px 0, #c2c2c2, transparent 1px),
-    radial-gradient(circle 1px at 15px 15px, #c2c2c2, transparent 1px),
-    radial-gradient(circle 1px at 0 15px, #c2c2c2, transparent 1px);
-  background-size: 16px 16px;
-  background-repeat: repeat;
-  transition: 250ms ease;
-}
-.c-featurette__item:nth-child(1)::before {
-  background: linear-gradient(0deg, #c63, transparent 35%);
-}
-.c-featurette__item:nth-child(2)::before {
-  background: linear-gradient(0deg, #b9ac8b, transparent 35%);
-}
-.c-featurette__item:nth-child(3)::before {
-  background: linear-gradient(0deg, #2e2e2d, transparent 35%);
-}
-.c-featurette__item:nth-child(4)::before {
-  background: linear-gradient(0deg, #bdcadb, transparent 35%);
-}
-.c-featurette__item:nth-child(5)::before {
-  background: linear-gradient(0deg, #532252, transparent 35%);
-}
-.c-featurette__item:hover {
-  flex: 4 0 auto;
-  box-shadow: 0 16px 32px 0 rgba(51, 51, 51, 0.25);
-}
-.c-featurette__item:hover::after {
-  display: block;
-  opacity: 1;
-}
-.c-featurette__item:hover .c-featurette__category {
-  transform: translatey(-104px);
-  transition: transform 500ms ease;
-}
-.c-featurette__item:hover .c-featurette__heading {
-  transform: translatey(-104px);
-  transition: transform 500ms ease 85ms;
-}
-.c-featurette__item:hover .c-featurette__button {
-  display: block;
-  opacity: 1;
-  transition: opacity 350ms ease 300ms;
-}
-.c-featurette__background {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -1;
-  border-radius: 2px;
-}
-.c-featurette__category {
   text-transform: uppercase;
-  font-weight: 500;
-  transition: transform 500ms ease;
-  z-index: 1;
-}
-.c-featurette__heading {
-  margin: 8px 0 24px;
-  font-size: 2.25em;
-  text-shadow: 1px 1px rgba(51, 51, 51, 0.5);
-  transition: transform 500ms ease;
-  z-index: 1;
-}
-.c-featurette__button {
-  position: absolute;
-  left: 24px;
-  bottom: 16px;
-  width: calc(100% - 94px);
-  opacity: 0;
-  padding: 24px 0;
-  font-family: "Poppins", sans-serif;
-  text-transform: uppercase;
-  margin: 0 24px 24px;
-  background: #f7e195;
-  border: none;
-  border-radius: 2px;
+  font-family: "Montserrat", sans-serif;
   font-weight: 700;
-  letter-spacing: 2px;
-  font-size: 0.85em;
-  transition: opacity 150ms ease;
+}
+.btn:hover,
+.btn:focus {
+  color: #fff;
+  outline: 0;
+}
+.fourth {
+  border-color: #f1c40f;
+  color: #fff;
+  background-image: linear-gradient(45deg, #f1c40f 50%, transparent 50%);
+  background-position: 100%;
+  background-size: 400%;
+  transition: background 300ms ease-in-out;
+}
+.fourth:hover {
+  background-position: 0;
+}
+
+@media (max-width: 480px) {
+  .container {
+    width: 100vw;
+  }
+
+  .panel:nth-of-type(4),
+  .panel:nth-of-type(5) {
+    display: none;
+  }
+}
+
+/* //header */
+
+header {
+  background-color: #84b4b1;
+  color: #fff;
+  text-align: center;
+  padding: 30px 0 120px;
+}
+header h1 {
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 65px;
+  font-weight: 400;
+  letter-spacing: 3px;
+  line-height: 0.8;
+  padding-top: 50px;
+  font-family: "Montserrat", sans-serif;
+}
+header h1 span {
+  text-transform: uppercase;
+  letter-spacing: 7px;
+  font-size: 25px;
+  line-height: 1;
+}
+header p {
+  padding-top: 30px;
+}
+
+.new_albums {
+  width: 600px;
+  margin: 50px auto;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 30px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: 16px 0;
+  grid-gap: 22px;
+}
+.new_albums::before {
+  content: " ";
+  display: block;
+  border-bottom: 3px solid #ccc;
+}
+.new_albums::after {
+  content: " ";
+  display: block;
+  border-bottom: 3px solid #ccc;
+}
+
+/* // following albums */
+
+.container2 {
+  display: flex;
+  width: 90vw;
+  margin: auto;
+
+  margin-top: -40px;
+  margin-bottom: 100px;
+  box-sizing: border-box;
+  height: 50vh;
+}
+
+.box {
+  flex: 1;
+  overflow: hidden;
+  transition: 0.5s;
+  margin: 0 2%;
+  box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+  line-height: 0;
+}
+
+.box > img {
+  width: 200%;
+  height: calc(100% - 10vh);
+  object-fit: cover;
+  transition: 0.5s;
+}
+
+.box > span {
+  font-size: 2.5vh;
+  display: block;
+  text-align: center;
+  height: 4vh;
+  line-height: 3;
+}
+
+.box:hover {
+  flex: 1 1 50%;
+}
+.box:hover > img {
+  width: 100%;
+  height: 100%;
 }
 </style>

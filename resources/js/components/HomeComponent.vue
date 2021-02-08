@@ -168,7 +168,7 @@ export default {
         .then((res) => {
           this.email = "";
           this.password = "";
-          window.location.href = "/home";
+          window.location.href = "/login";
           console.log(res);
         })
         .catch((err) => {

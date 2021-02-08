@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\Follower;
+use App\Http\Resources\User as UserResource;
+
 class UserController extends Controller
 {
     /**
@@ -48,19 +50,20 @@ class UserController extends Controller
      */
     public function show($id)
     {   
-        $user = User::with('albums')->where('id',$id)->first();
+        $user = (User::with('albums')->select('id', 'name', 'email', 'avatar')->find($id));
+        $followers = DB::table('followers')->where('following_id', $id)->count();
+        $followings = DB::table('followers')->where('follower_id', $id)->count();
         if(Auth::check()){
         $me_id = auth()->user()->id;
         $is_following = FollowerController::amIFollowing($id);
-        $followers = DB::table('followers')->where('following_id', $id)->count();
-        $followings = DB::table('followers')->where('follower_id', $id)->count();
+        
         if($user) {
             return view('profile', compact('user', 'is_following', 'followers', 'followings', 'me_id'));
         }
         
          else abort(404);
         }
-        return view('profile')->with('user', $user);
+        return view('profile', compact('user', 'followers', 'followings'));
         
     }
     

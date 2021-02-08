@@ -1,29 +1,41 @@
 !<template>
-  <div class="container">
-    <h1>{{ album.name }}</h1>
-    <div class="stamp-sheet">
-      <div
-        class="stamp"
-        v-for="(image, i) in album.images"
-        :key="image.id"
-        @click="
-          show = true;
-          startAt = i;
-        "
-      >
-        <img :src="'/images/albums/' + image.image" />
-      </div>
-    </div>
-    <h3>Description: {{ album.description }}</h3>
-    <h3>
-      By: <a :href="'/profile/' + album.user.id">{{ album.user.name }}</a>
-    </h3>
+  <div class="containers">
     <light-box
       :media="media"
       :startAt="startAt"
       v-if="show"
       @onClosed="show = false"
     ></light-box>
+
+    <header>
+      <h1>
+        {{ album.name }} <br />
+        <span>[ {{ album.description }} ]</span> <br />
+        <span
+          >Create By:
+          <a :href="'/profile/' + album.user.id">{{ album.user.name }}</a></span
+        >
+      </h1>
+    </header>
+
+    <div id="top"></div>
+    <section class="gallery">
+      <div class="row">
+        <ul>
+          <li
+            v-for="(image, i) in album.images"
+            :key="image.id"
+            @click="
+              show = true;
+              startAt = i;
+            "
+          >
+            <img :src="'/images/albums/' + image.image" />
+          </li>
+        </ul>
+      </div>
+      <!-- / row -->
+    </section>
   </div>
 </template>
 
@@ -42,6 +54,7 @@ export default {
     };
   },
   created() {
+    console.log(this.album);
     let mapping = {
       image: "src",
     };
@@ -63,82 +76,108 @@ export default {
 </script>
 
 <style scoped>
-/*============== CREDITS:=============
-          Based on a Pen by Orhan
-  "CSS3 Stamp effect using radial gradients"
-    https://codepen.io/orhanveli/pen/tbGJL 
-           Images from Unsplash
-======================================*/
-
-.container {
-  background: #bbb;
-  min-width: 100%;
-  min-height: 100vh;
+.album-name {
+  min-width: 800px;
+  max-width: 1320px;
+  max-height: 500px;
+  object-fit: cover;
+  margin: 3rem 20%;
+}
+.containers {
+  width: 100%;
   margin-top: -24px;
 }
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
 
-h1,
-h3 {
-  padding: 1em;
+body {
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
+  line-height: 1.5;
+  color: #333;
 }
-h1,
-h3 {
-  margin-left: 15%;
-}
-div.stamp-sheet {
-  max-width: 1320px;
-  min-width: 600px;
+
+.row {
+  width: 100%;
+  max-width: 1170px;
   margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
+  padding: 0;
+  clear: both;
+}
+.row img {
+  cursor: pointer;
+  max-width: 100%;
+  height: auto;
+  padding: 0;
+  margin: 0;
 }
 
-.stamp {
-  width: 220px;
-  height: 260px;
-  padding: 10px;
-  position: relative;
-  background: white;
-  background: radial-gradient(transparent 4px, white 4px);
-  background-size: 20px 20px;
-  background-position: -10px -10px;
-  transition: ease-in-out 300ms;
-  will-change: transform;
+.gallery ul li {
+  float: left;
+  margin: 0 0.8771929825%;
+  overflow: hidden;
 }
-.stamp img {
+
+header {
+  background-color: #84b4b1;
+  color: #fff;
+  text-align: center;
+  padding: 30px 0 120px;
+}
+header h1 {
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 65px;
+  font-weight: 400;
+  letter-spacing: 3px;
+  line-height: 0.8;
+  padding-top: 50px;
+  font-family: "Montserrat", sans-serif;
+}
+header h1 span {
+  text-transform: uppercase;
+  letter-spacing: 7px;
+  font-size: 25px;
+  line-height: 1;
+}
+header p {
+  padding-top: 30px;
+}
+
+.gallery {
+  padding: 40px 0 300px;
+  position: relative;
+  overflow: hidden;
+}
+.gallery ul {
+  padding-top: 50px;
+  position: relative;
+}
+.gallery ul li {
+  margin-bottom: 20px;
+  width: 23.2456140351%;
+  position: relative;
+}
+.gallery ul li a {
+  display: block;
+  position: relative;
   width: 100%;
   height: 100%;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
 }
-div.stamp::before {
-  content: "Title";
-  color: white;
-  font-size: 24px;
-  position: absolute;
-  left: 26px;
-  bottom: 24px;
-  text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.8), 0px 0px 2px rgba(0, 0, 0, 0.8);
-}
-
-div.stamp::after {
-  content: "♞";
-  color: white;
-  position: absolute;
-  top: 10px;
-  right: 24px;
-  font-size: 66px;
-  text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.8), 0px 0px 2px rgba(0, 0, 0, 0.8);
-}
-
-.stamp:last-child {
-  transform: rotate(7deg);
-  transform-origin: bottom left;
-}
-
-.stamp:hover {
-  z-index: 1;
-  transform: rotate(3deg);
-  transform-origin: center;
-  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.3));
-  transition: ease-in-out 300ms;
+.row.flex {
+  display: flex;
+  flex-direction: column;
 }
 </style>

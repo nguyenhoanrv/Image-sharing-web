@@ -60,7 +60,7 @@ class FollowerController extends Controller
         $users = [];
         foreach($followers_id as $follower_id) {
             $user = User::select('name','id', 'avatar')->where('id', $follower_id)->first();
-            $is_following = $this->amIFollowing($follower_id);
+            $is_following = Auth::check() ? $this->amIFollowing($follower_id) : false;
             array_push( $users, [$user, $is_following]);
 
         }

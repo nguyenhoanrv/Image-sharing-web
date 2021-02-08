@@ -50,7 +50,10 @@
           <span
             class="follow"
             v-if="user.id !== me_id"
-            @click="follow(user.id, is_following)"
+            @click="
+              follow(user.id, following);
+              following = !following;
+            "
             v-text="buttonText"
           ></span>
 
@@ -71,7 +74,10 @@
                 v-for="follower in followers"
                 :key="follower[0].id"
               >
-                <div style="display: flex">
+                <div
+                  style="display: flex; cursor: pointer"
+                  @click="redirectProfile(follower[0].id)"
+                >
                   <div>
                     <img
                       :src="'/storage' + follower[0].avatar.slice(6)"
@@ -87,10 +93,7 @@
                   type="checkbox"
                   id="follow"
                   v-model="follower[1]"
-                  @click="
-                    follow(follower[0].id, follower[1]);
-                    follower[1] = !follower[1];
-                  "
+                  @click="follow(follower[0].id, follower[1])"
                   v-if="follower[0].id !== me_id"
                 />
               </li>
@@ -102,30 +105,30 @@
             <ul class="list">
               <li
                 class="list-item"
-                v-for="following in followings"
-                :key="following.id"
+                v-for="following_user in followings"
+                :key="following_user[0].id"
               >
-                <div>
+                <div
+                  style="display: flex; cursor: pointer"
+                  @click="redirectProfile(following_user[0].id)"
+                >
                   <div>
                     <img
-                      :src="'/storage' + following[0].avatar.slice(6)"
+                      :src="'/storage' + following_user[0].avatar.slice(6)"
                       class="list-item-image"
                     />
                   </div>
                   <div class="list-item-content">
-                    <h4>{{ following.name }}</h4>
+                    <h4>{{ following_user[0].name }}</h4>
                     <p>@...</p>
                   </div>
                 </div>
                 <input
                   type="checkbox"
                   id="follow"
-                  v-model="following[1]"
-                  @click="
-                    follow(following[0].id, following[1]);
-                    following[1] = !following[1];
-                  "
-                  v-if="following.id !== me_id"
+                  v-model="following_user[1]"
+                  @click="follow(following_user[0].id, following_user[1])"
+                  v-if="following_user[0].id !== me_id"
                 />
               </li>
             </ul>
@@ -160,15 +163,13 @@ export default {
       let formData = new FormData();
       formData.append("following_id", user_id);
       formData.append("is_following", is_following);
-      console.log(formData);
       axios
         .post("/follow", formData)
         .then((res) => {
-          this.following = !this.following;
-          console.log(res.data);
+          is_following = !is_following;
         })
         .catch((err) => {
-          window.location = "http://127.0.0.1:8000/login";
+          window.location.href = "/login";
           console.log(err);
         });
     },
@@ -180,25 +181,24 @@ export default {
           .get(url)
           .then((res) => {
             this[this.list_item[i].toLowerCase()] = res.data;
-            console.log(this[this.list_item[i].toLowerCase()]);
           })
           .catch((err) => {
             console.log(err);
           });
       }
     },
+    redirectProfile(id) {
+      window.location.href = id;
+    },
   },
 
   computed: {
     buttonText() {
-      console.log(this.is_following);
-
       return this.following ? "Unfollow" : "Follow";
     },
   },
 
   created() {
-    console.log(this.followings);
     this.following = this.is_following;
   },
 };
@@ -443,9 +443,7 @@ main {
   padding-top: 5px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
-.list-item:last-child {
-  /* border-bottom: none; */
-}
+
 .list-item-image {
   border-radius: 50%;
   width: 64px;

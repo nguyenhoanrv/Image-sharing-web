@@ -13,12 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index');
 
 Auth::routes();
-Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
+// Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -30,14 +28,20 @@ Route::group(['prefix' => 'albums',  'middleware' => 'auth'], function()
     Route::post('/store', 'AlbumController@store');
     Route::put('/{id}/edit', 'AlbumController@update');
     Route::delete('/{id}/delete', 'AlbumController@destroy');
+
+    Route::get('/get_new_album', 'AlbumController@getNewAlbum');
+    Route::get('/get_following_album', 'AlbumController@getFollowingAlbum');
+
 });
 
 Route::group(['prefix' => 'images', 'middleware' => 'auth'], function () {
     Route::get('/{id}/upload', 'ImageController@create');
-    Route::get('/{id}/view', 'ImageController@index');
+    Route::get('/{id}/view', 'ImageController@index')->name('image-view');
     Route::post('/store', 'ImageController@store');
 });
 Route::get('/profile/{id}', 'UserController@show')->name('profile');
 Route::resource('/follow','FollowerController')->middleware('auth');
 Route::get('{id}/followers', 'FollowerController@getFollowers');
 Route::get('{id}/followings', 'FollowerController@getFollowings');
+
+Route::get('{id}/category', 'CategoryController@show')->name('category');

@@ -14,7 +14,7 @@ class ImageController extends Controller
      */
     public function index($id)
     {
-        $album = Album::with('images')->with('user')->findOrFail($id);
+        $album = Album::with('images')->with('user:id,name,avatar')->findOrFail($id);
         return view('image.index', compact('album'));
     }
 
