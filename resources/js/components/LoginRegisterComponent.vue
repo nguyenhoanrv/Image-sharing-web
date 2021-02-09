@@ -4,7 +4,7 @@
       <div class="signin-signup">
         <form class="sign-in-form" @submit.prevent="submitLogin">
           <h2 class="title">Sign in</h2>
-          <div class="input-field">
+          <div class="input-field" :class="{ invalid: errors['email'] }">
             <i class="fas fa-user"></i>
             <input
               type="email"
@@ -12,8 +12,11 @@
               name="email"
               v-model="email"
             />
+            <div class="invalid-feedback" v-if="errors['email']">
+              {{ errors["email"][0] }}
+            </div>
           </div>
-          <div class="input-field">
+          <div class="input-field" :class="{ invalid: errors['email'] }">
             <i class="fas fa-lock"></i>
             <input
               type="password"
@@ -21,6 +24,9 @@
               name="password"
               v-model="password"
             />
+            <div class="invalid-feedback" v-if="errors['email']">
+              {{ errors["email"][0] }}
+            </div>
           </div>
           <input type="submit" value="Login" class="button solid" />
           <p class="social-text">Or Sign in with social platforms</p>
@@ -46,36 +52,50 @@
           @submit.prevent="submitRegister"
         >
           <h2 class="title">Sign up</h2>
-          <div class="input-field">
+          <div class="input-field" :class="{ invalid: errors['name'] }">
             <i class="fas fa-user"></i>
             <input type="text" placeholder="Username" v-model="name" />
+            <div class="invalid-feedback" v-if="errors['name']">
+              {{ errors["name"][0] }}
+            </div>
           </div>
-          <div class="input-field">
+          <div class="input-field" :class="{ invalid: errors['email'] }">
             <i class="fas fa-envelope"></i>
             <input type="email" placeholder="Email" v-model="email" />
+            <div class="invalid-feedback" v-if="errors['email']">
+              {{ errors["email"][0] }}
+            </div>
           </div>
-          <div class="input-field">
+          <div class="input-field" :class="{ invalid: errors['password'] }">
+            <i class="fas fa-lock"></i>
+            <input type="password" placeholder="Password" v-model="password" />
+            <div class="invalid-feedback" v-if="errors['password']">
+              {{ errors["password"][0] }}
+            </div>
+          </div>
+          <div class="input-field" :class="{ invalid: errors['password'] }">
             <i class="fas fa-lock"></i>
             <input
-              type="passwstyle vue in componentord"
-              placeholder="Password"
-              v-model="password"
-            />
-          </div>
-          <div class="input-field">
-            <i class="fas fa-lock"></i>
-            <input
-              type="passwstyle vue in componentord"
+              type="passwword"
               placeholder="Password"
               v-model="password_confirmation"
             />
+            <div class="invalid-feedback" v-if="errors['password']">
+              {{ errors["password"][0] }}
+            </div>
           </div>
 
           <div class="button-wrapper">
-            <span class="label"> Upload Avatar </span>
-
+            <span class="label" :class="{ invalid: errors['file'] }">
+              Upload Avatar
+            </span>
+            <span>{{ this.avatar.name }}</span>
+            <div class="invalid-feedback" v-if="errors['avatar']">
+              {{ errors["avatar"][0] }}
+            </div>
             <input
               type="file"
+              accept=".png, .jpg, .jpeg"
               name="avatar"
               id="upload"
               class="upload-box"
@@ -114,7 +134,7 @@
           <button
             class="button transparentt"
             id="sign-up-button"
-            @click="isSigup = true"
+            @click="onClick"
           >
             Sign up
           </button>
@@ -131,7 +151,7 @@
           <button
             class="button transparentt"
             id="sign-in-button"
-            @click="isSigup = false"
+            @click="onClick"
           >
             Sign in
           </button>
@@ -144,6 +164,9 @@
 
 <script>
 export default {
+  props: {
+    is_sigup: Boolean,
+  },
   data() {
     return {
       email: "",
@@ -151,7 +174,8 @@ export default {
       password: "",
       avatar: "",
       password_confirmation: "",
-      isSigup: false,
+      errors: {},
+      isSigup: true,
     };
   },
   methods: {
@@ -197,9 +221,17 @@ export default {
           console.log(res);
         })
         .catch((err) => {
+          this.errors = err.response.data.errors;
           console.log(this.errors);
         });
     },
+    onClick() {
+      this.isSigup = !this.isSigup;
+      this.errors = {};
+    },
+  },
+  mounted() {
+    this.isSigup = this.is_sigup;
   },
 };
 </script>
@@ -275,7 +307,7 @@ form.sign-in-form {
   max-width: 380px;
   width: 100%;
   background-color: #f0f0f0;
-  margin: 10px 0;
+  margin: 15px 0;
   height: 55px;
   border-radius: 55px;
   display: grid;
@@ -455,6 +487,7 @@ form.sign-in-form {
   padding: 10px 0;
   text-transform: uppercase;
   font-size: 12px;
+  margin-top: 20px;
 }
 
 #upload {
@@ -635,5 +668,14 @@ form.sign-in-form {
     bottom: 28%;
     left: 50%;
   }
+}
+
+.invalid-feedback {
+  grid-column: 1 / span 2;
+  font-size: 13px;
+  color: #dc3545;
+}
+.invalid {
+  border: 1px solid #dc3545;
 }
 </style>

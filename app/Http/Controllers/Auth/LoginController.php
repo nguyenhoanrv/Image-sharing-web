@@ -26,15 +26,15 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
-public function showLoginForm()
-{
-    if(!session()->has('url.intended'))
-        {
-            session(['url.intended' => url()->previous()]);
-        }
-    return view('auth.login');
-}
+        protected $redirectTo = RouteServiceProvider::HOME;
+    public function showLoginForm()
+    {
+        if(!session()->has('url.intended'))
+            {
+                session(['url.intended' => url()->previous()]);
+            }
+        return view('auth.login');
+    }
     /**
      * Create a new controller instance.
      *

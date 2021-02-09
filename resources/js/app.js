@@ -26,7 +26,7 @@ Vue.use(VueSplide)
 Vue.component('album-component', require('./components/AlbumComponent.vue').default);
 Vue.component('album-index-component', require('./components/AlbumIndexComponent.vue').default);
 Vue.component('edit-component', require('./components/EditComponent.vue').default);
-Vue.component('home-component', require('./components/HomeComponent.vue').default);
+Vue.component('home-component', require('./components/LoginRegisterComponent.vue').default);
 Vue.component('upload-component', require('./components/UploadComponent.vue').default);
 Vue.component('image-index-component', require('./components/ImageIndexComponent.vue').default);
 Vue.component('home-index-component', require('./components/HomeIndexComponent.vue').default);

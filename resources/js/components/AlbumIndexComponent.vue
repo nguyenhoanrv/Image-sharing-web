@@ -1,33 +1,35 @@
 <template>
   <table class="table">
-    <thead>
+    <thead class="h3">
       <tr>
         <th scope="col">#</th>
+        <th scope="col">Image</th>
         <th scope="col">Name</th>
         <th scope="col">Description</th>
         <th scope="col">Category</th>
-        <th scope="col">Image</th>
+        <th scope="col">View Album</th>
         <th scope="col">Upload</th>
         <th scope="col">Edit/Delete</th>
       </tr>
     </thead>
-    <tbody>
-      <tr v-for="album in albums" :key="album.id">
-        <th scope="row">{{ album.id }}</th>
-        <td>{{ album.name }}</td>
-        <td>{{ album.description }}</td>
-        <td>{{ album.category.name }}</td>
+    <tbody class="h4">
+      <tr v-for="(album, i) in albums" :key="album.id">
+        <th scope="row">{{ i + 1 }}</th>
         <td>
           <img
             :src="'/album/' + album.image"
             alt=""
-            width="70"
+            width="90"
             class="img-fluid"
           />
         </td>
+        <td>{{ album.name }}</td>
+        <td>{{ album.description }}</td>
+        <td>{{ album.category.name }}</td>
+
         <td>
           <a :href="'/images/' + album.id + '/view'">
-            <button class="btn btn-success">View Album</button>
+            <button class="btn btn-info">View Album</button>
           </a>
         </td>
 
