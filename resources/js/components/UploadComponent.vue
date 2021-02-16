@@ -44,7 +44,6 @@
 </template>
 
 <script>
-import Swal from "sweetalert";
 export default {
   props: {
     album_id: Number,

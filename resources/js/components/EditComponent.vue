@@ -1,24 +1,23 @@
 <template>
   <div
-    class="modal fade"
     id="exampleModal"
+    class="modal fade"
     tabindex="-1"
-    role="dialog"
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
   >
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title mt-0" id="myModalLabel">
+            Default Modal Heading
+          </h5>
           <button
             type="button"
-            class="close"
-            data-dismiss="modal"
+            class="btn-close"
+            data-bs-dismiss="modal"
             aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
+          ></button>
         </div>
         <div class="modal-body">
           <form enctype="multipart/form-data">
@@ -78,21 +77,28 @@
               />
             </div>
           </form>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary waves-effect"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary waves-effect waves-light"
+              @click.prevent="onUpdate"
+            >
+              Save changes
+            </button>
+          </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">
-            Close
-          </button>
-          <button
-            type="button"
-            class="btn btn-primary"
-            @click.prevent="onUpdate"
-          >
-            Save changes
-          </button>
-        </div>
+        <!-- /.modal-content -->
       </div>
+      <!-- /.modal-dialog -->
     </div>
+    <!-- /.modal -->
   </div>
 </template>
 
@@ -135,8 +141,12 @@ export default {
           this.$refs.imageFile.value = "";
           this.category_id = "1";
           this.errors = [];
-          $("#exampleModal").modal("hide");
-          this.$emit("albumUpdated", res);
+          document.querySelector("#exampleModal").classList.remove("show");
+          document.querySelector("#exampleModal").style.display = "none";
+          document.querySelector(
+            "body > div.modal-backdrop.fade"
+          ).style.display = "none";
+          this.$emit("albumUpdated");
           swal({
             title: "Good job!",
             text: "Your album is updated!",

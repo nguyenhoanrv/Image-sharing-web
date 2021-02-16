@@ -31,7 +31,12 @@ Vue.component('upload-component', require('./components/UploadComponent.vue').de
 Vue.component('image-index-component', require('./components/ImageIndexComponent.vue').default);
 Vue.component('home-index-component', require('./components/HomeIndexComponent.vue').default);
 Vue.component('profile-component', require('./components/ProfileComponent.vue').default);
+Vue.component('comment-component', require('./components/CommentComponent.vue').default);
+
+
 Vue.component('light-box', require('vue-image-lightbox').default);
+Vue.component('paginate', require('./components/common/Paginate.vue').default);
+
 
 
 

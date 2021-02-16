@@ -154,7 +154,7 @@ header p {
 }
 
 .gallery {
-  padding: 40px 0 300px;
+  padding: 40px 0 20px;
   position: relative;
   overflow: hidden;
 }

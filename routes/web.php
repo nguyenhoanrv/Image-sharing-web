@@ -45,3 +45,8 @@ Route::get('{id}/followers', 'FollowerController@getFollowers');
 Route::get('{id}/followings', 'FollowerController@getFollowings');
 
 Route::get('{id}/category', 'CategoryController@show')->name('category');
+
+Route::get('albums/search', 'AlbumController@getAlbumsByName');
+
+Route::post('comment/store', 'CommentController@store')->middleware('auth');
+Route::get('comment', 'CommentController@getComments')->middleware('auth');
