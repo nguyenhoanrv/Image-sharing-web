@@ -100,4 +100,9 @@ class UserController extends Controller
     {
         //
     }
+
+    public function notifications()
+    {
+        return User::find(1);
+    }
 }

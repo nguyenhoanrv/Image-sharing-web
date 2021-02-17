@@ -8717,6 +8717,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     album_id: Number,
@@ -8731,7 +8735,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    submitComment: function submitComment(event, par_id) {
+    submitComment: function submitComment(event, par_id, par_user_name) {
       var _this = this;
 
       if (this.comment_content.trim() || this.comment_child_content.trim()) {
@@ -8739,8 +8743,9 @@ __webpack_require__.r(__webpack_exports__);
         formData.append("content", event.target.value);
         formData.append("album_id", this.album_id);
 
-        if (par_id) {
+        if (par_id && par_user_name) {
           formData.append("par_id", par_id);
+          formData.append("par_user_name", par_user_name);
         }
 
         axios.post("/comment/store", formData).then(function (res) {
@@ -8749,7 +8754,7 @@ __webpack_require__.r(__webpack_exports__);
           data.avatar = _this.user.avatar;
           data.user_id = _this.user.id;
 
-          if (par_id) {
+          if (par_id && par_user_name) {
             _this.comments.map(function (e) {
               if (e.comment_par.id === par_id) {
                 e.comments_child.unshift(data);
@@ -49248,7 +49253,7 @@ var render = function() {
                     on: {
                       submit: function($event) {
                         $event.preventDefault()
-                        return _vm.submitComment($event, _vm.par_id)
+                        return _vm.submitComment($event)
                       }
                     }
                   },
@@ -49796,7 +49801,8 @@ var render = function() {
                                       $event.preventDefault()
                                       return _vm.submitComment(
                                         $event,
-                                        comment.comment_par.id
+                                        comment.comment_par.id,
+                                        comment.comment_par.user_name
                                       )
                                     },
                                     input: function($event) {

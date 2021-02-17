@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Notifications\UserFollowed;
 
 use App\Follower;
 use App\User;
@@ -42,9 +43,13 @@ class FollowerController extends Controller
             if($request->is_following == 'false') {
                 $follow = new Follower();
                 $follow->fill($request->all());
+                $user = User::find($request->following_id);
                 $follow->follower_id =$user_id;
                 $follow->save();
+                $user->notify(new UserFollowed(auth()->user()));
+
         } else {
+            
             Follower::where('following_id', $request->following_id)->where('follower_id', $user_id)->delete();
         }
         return response()->json();

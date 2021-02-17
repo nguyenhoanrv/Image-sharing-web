@@ -14,7 +14,7 @@
                 height="70px"
               />
             </a>
-            <form method="POST" @submit.prevent="submitComment($event, par_id)">
+            <form method="POST" @submit.prevent="submitComment($event)">
               <textarea
                 type="text"
                 placeholder="Add your comment"
@@ -217,7 +217,11 @@
                     v-model="comment_child_content"
                     @keydown.enter.exact.prevent
                     @keyup.enter.exact.prevent="
-                      submitComment($event, comment.comment_par.id)
+                      submitComment(
+                        $event,
+                        comment.comment_par.id,
+                        comment.comment_par.user_name
+                      )
                     "
                   />
                 </form>
@@ -281,13 +285,14 @@ export default {
     };
   },
   methods: {
-    submitComment(event, par_id) {
+    submitComment(event, par_id, par_user_name) {
       if (this.comment_content.trim() || this.comment_child_content.trim()) {
         let formData = new FormData();
         formData.append("content", event.target.value);
         formData.append("album_id", this.album_id);
-        if (par_id) {
+        if (par_id && par_user_name) {
           formData.append("par_id", par_id);
+          formData.append("par_user_name", par_user_name);
         }
         axios
           .post("/comment/store", formData)
@@ -296,7 +301,7 @@ export default {
             data.user_name = this.user.name;
             data.avatar = this.user.avatar;
             data.user_id = this.user.id;
-            if (par_id) {
+            if (par_id && par_user_name) {
               this.comments.map((e) => {
                 if (e.comment_par.id === par_id) {
                   e.comments_child.unshift(data);

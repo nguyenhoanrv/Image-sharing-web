@@ -50,3 +50,7 @@ Route::get('albums/search', 'AlbumController@getAlbumsByName');
 
 Route::post('comment/store', 'CommentController@store')->middleware('auth');
 Route::get('comment', 'CommentController@getComments')->middleware('auth');
+
+
+
+Route::get('follow', 'UserController@notifications');

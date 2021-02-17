@@ -15,14 +15,14 @@ class CommentController extends Controller
         'content' => 'required',
         'album_id' => 'required',
         ]);
-        
         $comment = new Comment();
-        
         $comment->fill($request->all());
         $comment->user_id = auth()->user()->id;
         $comment->save();
-        // $comment = DB::table(DB::raw('comments c, users u '))
-        // ->selectRaw('c.id as id,c.content as content, c.user_id as user_id, c.par_id as par_id, u.name as user_name, u.avatar as avatar')->where('c.album_id', $request->album)->where('c.user_id', '=', DB::raw('u.id'))->orderByDesc('id')->finn($comment->id);
+        
+        // add notification
+        NotificationController::notify_comment($request);
+        
         return response()->json($comment);
     }
     
