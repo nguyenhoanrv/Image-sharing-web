@@ -70,7 +70,10 @@
                     class="media-comment-name"
                     :href="'/profile/' + comment.comment_par.user_id"
                     >{{ comment.comment_par.user_name }}</a
-                  ><span class="text-muted">2 h</span>
+                  ><span
+                    class="text-muted"
+                    v-text="makeTimeText(comment.comment_par.created_at)"
+                  ></span>
                 </div>
                 <div class="media-comment-text">
                   {{ comment.comment_par.content }}
@@ -191,7 +194,10 @@
                         :href="'/profile/' + comment_child.user_id"
                         >{{ comment_child.user_name }}
                       </a>
-                      <span class="text-muted">7 h</span>
+                      <span
+                        class="text-muted"
+                        v-text="makeTimeText(comment_child.created_at)"
+                      ></span>
                     </div>
                     <div class="media-comment-text">
                       {{ comment_child.content }}
@@ -301,21 +307,11 @@ export default {
             data.user_name = this.user.name;
             data.avatar = this.user.avatar;
             data.user_id = this.user.id;
-            if (par_id && par_user_name) {
-              this.comments.map((e) => {
-                if (e.comment_par.id === par_id) {
-                  e.comments_child.unshift(data);
-                  return;
-                }
-              });
-            } else {
-              this.comments.unshift({ comment_par: data, comments_child: [] });
-            }
+
             this.comment_content = "";
             this.comment_child_content = "";
             this.par_id = null;
             this.index = -1;
-            console.log(res);
           })
           .catch((err) => {
             console.log(err);
@@ -331,14 +327,59 @@ export default {
         })
         .then((res) => {
           this.comments = res.data;
-          console.log(res);
+          console.log(this.comments);
         })
         .catch((err) => {
           console.log(err);
         });
     },
+    makeTimeText(time_create) {
+      let timeText = "0 m";
+
+      if (time_create) {
+        let time = Math.floor(
+          (Date.now() - Date.parse(time_create)) / 1000 / 60 - 7 * 60
+        );
+        if (time < 60) {
+          timeText = time + " m";
+        } else if (time >= 60 && time < 60 * 24) {
+          time = Math.floor(time / 60);
+          timeText = time + " h";
+        } else if (time >= 60 * 24 && time < 60 * 24 * 30) {
+          time = Math.floor(time / 60 / 24);
+          timeText = time + " d";
+        } else if (time >= 60 * 24 * 30 && time < 60 * 24 * 365) {
+          time = Math.floor(time / 60 / 24 / 30);
+          timeText = time + " m";
+        } else {
+          timeText = Math.floor(time / 60 / 24 / 365) + " y";
+        }
+      }
+      return timeText;
+    },
   },
-  created() {
+
+  mounted() {
+    var pusher = new Pusher("c7a479a6b92451ec0dce", {
+      cluster: "ap1",
+    });
+    var channel1 = pusher.subscribe("comment");
+    channel1.bind("send-comment", (data) => {
+      let newComment = data.data;
+      console.log(newComment);
+      if (newComment.par_id) {
+        newComment.par_id = parseInt(newComment.par_id);
+        this.comments.map((e) => {
+          if (e.comment_par.id === newComment.par_id) {
+            e.comments_child.unshift(newComment);
+            return;
+          }
+        });
+      } else {
+        this.comments.unshift({ comment_par: newComment, comments_child: [] });
+      }
+    });
+
     this.getComment();
   },
 };

@@ -2,11 +2,12 @@
 
 namespace App\Notifications;
 
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use App\User;
+
 class UserFollowed extends Notification implements ShouldQueue
 {
     use Queueable;
@@ -30,7 +31,7 @@ class UserFollowed extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', 'broadcast'];
     }
 
     /**
@@ -42,15 +43,16 @@ class UserFollowed extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->line('The introduction to the notification.')
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
     }
-    public function toDatabase($notifiable)
+    public function toArray($notifiable)
     {
         return [
             'follower_id' => $this->follower->id,
             'follower_name' => $this->follower->name,
+            'avatar' => $this->follower->avatar,
         ];
     }
     /**
@@ -59,11 +61,5 @@ class UserFollowed extends Notification implements ShouldQueue
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toArray($notifiable)
-    {
-        return [
-            // 'follower_id' => $this->follower->id,
-            // 'follower_name' => $this->follower->name,
-        ];
-    }
+
 }

@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 use App\User;
-use App\Follower;
-use App\Http\Resources\User as UserResource;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -16,9 +14,13 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function getNotifications()
+    {
+        return DB::table('notifications')->where('notifiable_id', Auth::id())->oldest()->get();
+    }
     public function index()
     {
-        
+
     }
 
     /**
@@ -49,24 +51,25 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {   
+    {
         $user = (User::with('albums')->select('id', 'name', 'email', 'avatar')->find($id));
         $followers = DB::table('followers')->where('following_id', $id)->count();
         $followings = DB::table('followers')->where('follower_id', $id)->count();
-        if(Auth::check()){
-        $me_id = auth()->user()->id;
-        $is_following = FollowerController::amIFollowing($id);
-        
-        if($user) {
-            return view('profile', compact('user', 'is_following', 'followers', 'followings', 'me_id'));
-        }
-        
-         else abort(404);
+        if (Auth::check()) {
+            $me_id = auth()->user()->id;
+            $is_following = FollowerController::amIFollowing($id);
+
+            if ($user) {
+                return view('profile', compact('user', 'is_following', 'followers', 'followings', 'me_id'));
+            } else {
+                abort(404);
+            }
+
         }
         return view('profile', compact('user', 'followers', 'followings'));
-        
+
     }
-    
+
     /**
      * Show the form for editing the specified resource.
      *

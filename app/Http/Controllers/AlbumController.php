@@ -30,9 +30,11 @@ class AlbumController extends Controller
     }
 
     
-    public function getAlbums() {
-        $albums = Album::where('user_id', auth()->user()->id)->with('category:id,name')->get();
-        return $albums;
+    public function getAlbums(Request $request) {
+        if($request->name){
+            return  Album::where('user_id', auth()->user()->id)->where('name', 'like', '%'.$request->name.'%')->with('category:id,name')->paginate($request->count);
+        }
+        return Album::where('user_id', auth()->user()->id)->with('category:id,name')->paginate($request->count);
     }
     public function getNewAlbum() {
         return DB::table(DB::raw('albums a, users u '))

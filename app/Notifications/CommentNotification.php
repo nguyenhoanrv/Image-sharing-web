@@ -20,12 +20,14 @@ class CommentNotification extends Notification implements ShouldQueue
     protected $album_name;
     protected $album_id;
     protected $author_name;
-    public function __construct($user_name, $album_name, $album_id, $author_name)
+    protected $avatar;
+    public function __construct($user_name, $album_name, $album_id, $author_name, $avatar)
     {
         $this->user_name = $user_name;
         $this->album_name = $album_name;
         $this->album_id = $album_id;
         $this->author_name = $author_name;
+        $this->avatar = $avatar;
     }
 
     /**
@@ -36,9 +38,9 @@ class CommentNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', 'broadcast'];
     }
-    
+
     /**
      * Get the mail representation of the notification.
      *
@@ -48,9 +50,9 @@ class CommentNotification extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->line('The introduction to the notification.')
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
     }
 
     /**
@@ -59,13 +61,14 @@ class CommentNotification extends Notification implements ShouldQueue
      * @param  mixed  $notifiable
      * @return array
      */
-    public function toDatabase($notifiable)
+    public function toArray($notifiable)
     {
         return [
-            'user_name'=> $this->user_name,
-            'author_name'=> $this->author_name,
+            'user_name' => $this->user_name,
+            'author_name' => $this->author_name,
             'album_name' => $this->album_name,
-            'album_id' => $this->album_id
+            'album_id' => $this->album_id,
+            'avatar' => $this->avatar,
         ];
     }
 }

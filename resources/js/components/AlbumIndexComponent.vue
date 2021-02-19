@@ -30,7 +30,11 @@
                     class="form-control form-control-sm"
                     placeholder="Enter name of album..."
                     v-model="search"
-                    @input="getAlbums(1)"
+                    @keyup.enter="
+                      {
+                        getAlbums(1);
+                      }
+                    "
                   />
                 </div>
               </div>
