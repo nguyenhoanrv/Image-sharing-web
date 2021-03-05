@@ -281,7 +281,6 @@ main {
 
 .name {
   margin-top: 20px;
-  font-family: "Open Sans";
   font-weight: 600;
   font-size: 18pt;
   color: #777;
@@ -290,7 +289,6 @@ main {
 .info {
   margin-top: -5px;
   margin-bottom: 5px;
-  font-family: "Montserrat", sans-serif;
   font-size: 11pt;
   color: #aaa;
 }
@@ -300,14 +298,12 @@ main {
   text-align: center;
   padding-bottom: 20px;
   border-bottom: 1px solid #ededed;
-  font-family: "Montserrat", sans-serif;
 }
 
 .number-stat {
   padding: 0px;
   font-size: 14pt;
   font-weight: bold;
-  font-family: "Montserrat", sans-serif;
   color: #aaa;
 }
 
@@ -323,7 +319,6 @@ main {
   margin: 25px 40px;
   color: #999;
   font-size: 11pt;
-  font-family: "Open Sans";
   padding-bottom: 25px;
   border-bottom: 1px solid #ededed;
 }
@@ -366,7 +361,6 @@ main {
   cursor: pointer;
   font-size: 13pt;
   text-transform: uppercase;
-  font-family: "Montserrat", sans-serif;
   font-weight: 500;
   color: #888;
 }
@@ -387,7 +381,6 @@ main {
   padding: 8px 15px;
   cursor: pointer;
   transition: all 0.4s;
-  font-family: "Montserrat", sans-serif;
   font-weight: 400;
 }
 
@@ -534,7 +527,6 @@ main {
 
 input:after {
   color: #3399ff;
-  font-family: "Helvetica";
   font-size: 10pt;
   background-color: #ffffff;
   border: 1px solid;

@@ -1,4 +1,6 @@
 @extends('layouts.app')
+@section('title', '| Create Album')
+
  @section('css')
         <link href="{{asset('assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet')}}">
         <link href="{{asset('assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css')}}" />

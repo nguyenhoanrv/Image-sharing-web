@@ -1,5 +1,5 @@
 <template>
-  <body data-theme="default">
+  <body id="body">
     <!-- Wrapper-->
     <div class="comment-wrapper">
       <!-- Theme options-->
@@ -385,8 +385,7 @@ export default {
 };
 </script>
 
-<style>
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+<style scoped>
 :root {
   --body-bg: #fff;
   --body-color: #22262a;
@@ -418,13 +417,12 @@ body {
   flex-direction: column;
   margin: 0;
   font-size: 1rem;
-  font-family: "Roboto", sans-serif;
   line-height: 1.5;
   color: var(--body-color);
   background-color: var(--body-bg);
   -webkit-text-size-adjust: 100%;
 }
-body .footer {
+body.footer {
   margin-top: auto;
 }
 a,

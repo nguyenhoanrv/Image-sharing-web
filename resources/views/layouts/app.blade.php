@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Laravel')}} @yield('title')</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -16,8 +16,6 @@
     <meta charset="utf-8" />
     <title>Calendar | Skote - Admin & Dashboard Template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
-    <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{asset('assets/images/favicon.ico')}}">
 
@@ -32,7 +30,8 @@
     <!-- App Css-->
     <link href="{{asset('assets/css/app.min.css')}}" id="app-style" rel="stylesheet" type="text/css" />
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    {{--
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
 
     @yield('css')
 </head>
@@ -40,7 +39,7 @@
     window.userId = {{ auth() -> user() -> id }}
 </script>
 
-<body data-topbar="dark" data-layout="horizontal">
+<body data-topbar="dark" data-layout="horizontal" data-layout-size="boxed">
     <!-- Begin page -->
     <div id="layout-wrapper">
 
@@ -74,30 +73,7 @@
                         </div>
                     </form>
 
-                    <div class="dropdown dropdown-mega d-none d-lg-block ml-2">
-                        <button type="button" class="btn header-item waves-effect" data-bs-toggle="dropdown"
-                            aria-haspopup="false" aria-expanded="false">
-                            <span key="t-megamenu">Mega Menu</span>
-                            <i class="mdi mdi-chevron-down"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-megamenu">
-                            <div class="row">
-                                <div class="col-sm-8">
 
-                                    <div class="row">
-
-                                        <div class="col-sm-5">
-                                            <div>
-                                                <img src="{{asset('assets/images/megamenu-img.png')}}" alt=""
-                                                    class="img-fluid mx-auto d-block">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
                 </div>
 
                 <div class="d-flex">
@@ -118,7 +94,7 @@
                                             aria-label="Search input">
 
                                         <button class="btn btn-primary" type="submit"><i
-                                                class="mdi mdi-magnify"></i></button>s
+                                                class="mdi mdi-magnify"></i></button>
                                     </div>
                                 </div>
                             </form>
@@ -168,58 +144,7 @@
                         </div>
                     </div>
 
-                    <div class="dropdown d-none d-lg-inline-block ml-1">
-                        <button type="button" class="btn header-item noti-icon waves-effect" data-bs-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            <i class="bx bx-customize"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                            <div class="px-lg-2">
-                                <div class="row g-0">
-                                    <div class="col">
-                                        <a class="dropdown-icon-item" href="#">
-                                            <img src="{{asset('assets/images/brands/github.png')}}" alt="Github">
-                                            <span>GitHub</span>
-                                        </a>
-                                    </div>
-                                    <div class="col">
-                                        <a class="dropdown-icon-item" href="#">
-                                            <img src="{{asset('assets/images/brands/bitbucket.png')}}" alt="bitbucket">
-                                            <span>Bitbucket</span>
-                                        </a>
-                                    </div>
-                                    <div class="col">
-                                        <a class="dropdown-icon-item" href="#">
-                                            <img src="{{asset('assets/images/brands/dribbble.png')}}" alt="dribbble">
-                                            <span>Dribbble</span>
-                                        </a>
-                                    </div>
-                                </div>
 
-                                <div class="row no-gutters">
-                                    <div class="col">
-                                        <a class="dropdown-icon-item" href="#">
-                                            <img src="{{asset('assets/images/brands/dropbox.png')}}" alt="dropbox">
-                                            <span>Dropbox</span>
-                                        </a>
-                                    </div>
-                                    <div class="col">
-                                        <a class="dropdown-icon-item" href="#">
-                                            <img src="{{asset('assets/images/brands/mail_chimp.png')}}"
-                                                alt="mail_chimp">
-                                            <span>Mail Chimp</span>
-                                        </a>
-                                    </div>
-                                    <div class="col">
-                                        <a class="dropdown-icon-item" href="#">
-                                            <img src="{{asset('assets/images/brands/slack.png')}}" alt="slack">
-                                            <span>Slack</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="dropdown d-none d-lg-inline-block ml-1">
                         <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
@@ -227,8 +152,8 @@
                         </button>
                     </div>
                     <div id="notifications">
-                    <notification-component></notification-component>
-</div>
+                        <notification-component></notification-component>
+                    </div>
                     <div class="dropdown d-inline-block">
                         <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -243,16 +168,10 @@
                             <a class="dropdown-item" href="{{ route('profile', ['id' => auth()->user()->id]) }}"><i
                                     class="bx bx-user font-size-16 align-middle me-1"></i> <span
                                     key="t-profile">Profile</span>
-                                <a class="dropdown-item" href="#"><i
-                                        class="bx bx-wallet font-size-16 align-middle me-1"></i> <span
-                                        key="t-my-wallet">My Wallet</span></a>
                                 <a class="dropdown-item d-block" href="#"><span
                                         class="badge bg-success float-end">11</span><i
                                         class="bx bx-wrench font-size-16 align-middle me-1"></i> <span
                                         key="t-settings">Settings</span></a>
-                                <a class="dropdown-item" href="#"><i
-                                        class="bx bx-lock-open font-size-16 align-middle me-1"></i> <span
-                                        key="t-lock-screen">Lock screen</span></a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item text-danger" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();"><i
@@ -284,38 +203,24 @@
                         <ul class="navbar-nav">
 
                             <li class="nav-item dropdown">
-                                <a href="{{route('album')}}" class="nav-link dropdown-toggle arrow-none" role="button">
-                                    <i class="bx bx-calendar"></i>
-                                    <span key="t-calendar">Dashboard</span>
+                                <a href="{{route('album')}}" class="nav-link" role="button">
+                                    <i class="bx bx-home-circle me-2"></i><span key="t-dashboards">Dashboards</span>
                                 </a>
                             </li>
 
                             <li class="nav-item dropdown">
-                                <a href="layouts-horizontal.html" class="nav-link dropdown-toggle arrow-none"
-                                    role="button">
-                                    <i class="bx bx-calendar"></i>
-                                    <span key="t-calendar">Dashboard</span>
-                                </a>
-                            </li>
-
-
-
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-more" role="button">
-                                    <i class="bx bx-file me-2"></i><span key="t-extra-pages">Categories</span>
+                                <a class="nav-link" href="#" id="topnav-more" role="button">
+                                    <i class="bx bx-collection me-2"></i><span key="t-components">Categories</span>
                                     <div class="arrow-down"></div>
+
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-more">
-
-                                    <div class="dropdown">
-                                        @foreach(\App\Category::all() as $category)
-                                        <a class="dropdown-item"
-                                            href="{{ route('category', ['id'=> $category->id]) }}">{{$category->name}}</a>
-                                        @endforeach
-                                    </div>
+                                    @foreach(\App\Category::all() as $category)
+                                    <a class="dropdown-item" href="{{ route('category', ['id'=> $category->id]) }}"
+                                        key="t-{{$category->id}}">{{$category->name}}</a>
+                                    @endforeach
                                 </div>
                             </li>
-
                         </ul>
                     </div>
                 </nav>
@@ -342,7 +247,6 @@
                 </div>
             </footer>
         </div>
-
     </div>
     <!-- JAVASCRIPT -->
     <script src="{{asset('assets/libs/jquery/jquery.min.js')}}"></script>
@@ -358,7 +262,7 @@
     <script src="{{asset('assets/js/pages/dashboard.init.js')}}"></script> --}}
     <script src="{{asset('assets/js/app.js')}}"></script>
     <script type="text/javascript">
-       
+
     </script>
 </body>
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="row d-flex justify-content-between align-items-center mt-4">
+  <div class="row d-flex justify-content-between align-items-center m-3">
     <div class="col-sm-12 col-md-5">
       <div
         class="dataTables_info"

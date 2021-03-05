@@ -1,8 +1,8 @@
 @extends('layouts.app')
-
+@section('title', '| Dashboard')
 @section('content')
-<div class="card" style="margin-top: -30px">
-  <div class="jumbotron ">
+<div class="card">
+  <div class="card-body">
     <div class="container">
       <h1 class="display-4">Your Albums</h1>
       <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>

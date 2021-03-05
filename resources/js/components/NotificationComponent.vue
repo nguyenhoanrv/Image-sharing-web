@@ -16,7 +16,6 @@
     <div
       class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
       aria-labelledby="page-header-notifications-dropdown"
-      style="width: 410px"
     >
       <div class="p-3">
         <div class="row align-items-center">
@@ -113,8 +112,8 @@ export default {
               class="me-3 rounded-circle avatar-xs"
               alt="user-pic"
             /><div class="media-body"> 
-        <div class="font-size-16 text-muted">
-          <p class="mb-1" key="t-simplified">
+        <div class="font-size-13 text-muted">
+          <p class="mb-1" key="t-${notification.id}">
             ${text}
           </p>
           <p class="mb-0">

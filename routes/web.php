@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::get('/', 'HomeController@index');
+Route::get('/login-facebook', 'Auth\SocialLoginController@redirectToFacebook');
+Route::get('/facebook_callback', 'Auth\SocialLoginController@loginByFacebook');
 
 Auth::routes();
 // Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');

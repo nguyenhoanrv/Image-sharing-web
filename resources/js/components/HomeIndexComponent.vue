@@ -105,7 +105,6 @@ export default {
 <style scoped>
 /* //// */
 
-@import url("https://fonts.googleapis.com/css?family=Muli&display=swap");
 .containerr {
   width: 100%;
   margin-top: -24px;
@@ -119,7 +118,6 @@ export default {
   justify-content: center;
   align-items: center;
   margin: 0 auto;
-  font-family: "Muli", sans-serif;
 }
 
 .panel {
@@ -190,7 +188,6 @@ export default {
   text-decoration: none;
   text-align: center;
   text-transform: uppercase;
-  font-family: "Montserrat", sans-serif;
   font-weight: 700;
 }
 .btn:hover,
@@ -237,7 +234,6 @@ header h1 {
   letter-spacing: 3px;
   line-height: 0.8;
   padding-top: 50px;
-  font-family: "Montserrat", sans-serif;
 }
 header h1 span {
   text-transform: uppercase;

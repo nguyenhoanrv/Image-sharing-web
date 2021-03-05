@@ -99,13 +99,6 @@ export default {
   box-sizing: border-box;
 }
 
-body {
-  font-family: "Lato", sans-serif;
-  font-weight: 300;
-  line-height: 1.5;
-  color: #333;
-}
-
 .row {
   width: 100%;
   max-width: 1170px;
@@ -141,7 +134,6 @@ header h1 {
   letter-spacing: 3px;
   line-height: 0.8;
   padding-top: 50px;
-  font-family: "Montserrat", sans-serif;
 }
 header h1 span {
   text-transform: uppercase;
