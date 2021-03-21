@@ -109,7 +109,9 @@ export default {
 .row img {
   cursor: pointer;
   max-width: 100%;
-  height: auto;
+  height: 280px;
+  width: 370px;
+  object-fit: cover;
   padding: 0;
   margin: 0;
 }

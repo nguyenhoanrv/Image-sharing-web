@@ -24,8 +24,9 @@ class CommentController extends Controller
 
     public function getComments(Request $request)
     {
+        $album_id = 1;
         $comments = DB::table(DB::raw('comments c, users u '))
-            ->selectRaw('c.id as id,c.content as content, c.user_id as user_id, c.par_id as par_id, c.created_at, u.name as user_name, u.avatar as avatar')->where('c.album_id', $request->album)->where('c.user_id', '=', DB::raw('u.id'))->orderByDesc('id')->get();
+            ->selectRaw('c.id as id,c.content as content, c.user_id as user_id, c.par_id as par_id, c.created_at, u.name as user_name, u.avatar as avatar')->where('c.album_id', $album_id)->where('c.user_id', '=', DB::raw('u.id'))->orderByDesc('id')->paginate(10);
         $comments_par = [];
         $comments_child = [];
         foreach ($comments as $comment) {

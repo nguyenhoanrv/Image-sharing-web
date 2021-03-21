@@ -32,7 +32,6 @@ Route::group(['prefix' => 'albums', 'middleware' => 'auth'], function () {
 
     Route::get('/get_new_album', 'AlbumController@getNewAlbum');
     Route::get('/get_following_album', 'AlbumController@getFollowingAlbum');
-
 });
 
 Route::group(['prefix' => 'images', 'middleware' => 'auth'], function () {
@@ -54,7 +53,9 @@ Route::get('comment', 'CommentController@getComments')->middleware('auth');
 
 Route::get('/notifications', 'UserController@getNotifications');
 
-Route::get('/commet', function () {
-    $comment = Comment::find(100);
-    return $comment->par_id;
-});
+// Route::get('/commet', function () {
+//     $comment = Comment::find(100);
+//     return $comment->par_id;
+// });
+
+Route::get('/comment/get', 'CommentController@getComments');

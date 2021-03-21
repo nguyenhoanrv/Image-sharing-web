@@ -234,8 +234,10 @@
               </div>
             </div>
           </div>
+          <infinite-loading spinner="waveDots" @distance="100" @infinite="infiniteHandler">
 
-          <div class="loading-content">
+          </infinite-loading>
+          <!-- <div class="loading-content">
             <svg
               class="svg-loading"
               version="1.1"
@@ -269,7 +271,7 @@
                 ></animateTransform>
               </path>
             </svg>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -288,6 +290,7 @@ export default {
       comment_content: "",
       comment_child_content: "",
       index: -1,
+      page: 1
     };
   },
   methods: {
@@ -318,20 +321,33 @@ export default {
           });
       }
     },
-    getComment() {
+    infiniteHandler($state) {
       axios
         .get("/comment", {
           params: {
-            album: this.album_id,
+            album_id: this.album_id,
+            page: this.page
           },
         })
         .then((res) => {
-          this.comments = res.data;
+          setTimeout(() => {
+            $.each(res.data, (key, value)=> {
+              this.comments.push(value);
+          });
+              $state.loaded();
+              this.page = this.page + 1;
+
+          }, 1500)
           console.log(this.comments);
+
         })
         .catch((err) => {
           console.log(err);
         });
+    
+    },
+    getComment() {
+      
     },
     makeTimeText(time_create) {
       let timeText = "0 m";
@@ -380,7 +396,6 @@ export default {
       }
     });
 
-    this.getComment();
   },
 };
 </script>
