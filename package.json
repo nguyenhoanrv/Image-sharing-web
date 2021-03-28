@@ -28,6 +28,7 @@
         "@splidejs/vue-splide": "^0.3.5",
         "laravel-echo": "^1.10.0",
         "pusher-js": "^7.0.3",
+        "ssri": "^8.0.1",
         "sweetalert": "^2.1.2",
         "vue-image-lightbox": "^7.2.0",
         "vue-infinite-loading": "^2.4.5",
